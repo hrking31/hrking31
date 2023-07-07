@@ -1,20 +1,4 @@
-### Hi there 👋
-
-<!--
-**hrking31/hrking31** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
-
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
-¡Bienvenido a mi repositorio GitHub!
+¡Bienvenido a mi repositorio GitHub! 
 
 ✨ Acerca de mí
 👨🏻‍💻 Soy un desarrollador Full Stack autodidacta con más de 10 meses de experiencia en tecnología y desarrollo de software. Me especializo en construir soluciones de alto impacto para automatizar procesos de negocio.
@@ -26,11 +10,12 @@ Here are some ideas to get you started:
 💡 Si estás buscando un desarrollador comprometido, capaz de trabajar en equipo y apasionado por crear aplicaciones de calidad, ¡no dudes en comunicarte conmigo! Me emociona colaborar en proyectos innovadores y contribuir al éxito de tu empresa.
 
 💻 Tecnologías con las que codifico
- ReactJS Docker Express Redux Git CSS Node.js Sequelize MySQL PostgreSQL MongoDB
+  ![ReactJS](https://img.icons8.com/color/48/000000/react-native.png) ReactJS
+ ReactJS Docker Express Redux Git CSS Node.js Sequelize MySQL PostgreSQL 
 
 📞 Contáctame
 🚀🔗 Puedes encontrarme en LinkedIn (https://www.linkedin.com/in/hernandorey) para conocer más sobre mi experiencia y proyectos anteriores. Estoy abierto a oportunidades profesionales y colaboraciones interesantes.
 
 📫 Si tienes alguna pregunta o simplemente deseas ponerte en contacto, no dudes en enviarme un correo electrónico a hrking31@gmail.com.
 
-¡Gracias por visitar mi perfil! Espero poder contribuir y ser parte de tu próximo proyecto emocionante. 😊
+¡Gracias por visitar mi perfil! Espero poder contribuir y ser parte de tu próximo proyecto. 
