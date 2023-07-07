@@ -9,19 +9,22 @@
 
 💡 Si estás buscando un desarrollador comprometido, capaz de trabajar en equipo y apasionado por crear aplicaciones de calidad, ¡no dudes en comunicarte conmigo! Me emociona colaborar en proyectos innovadores y contribuir al éxito de tu empresa.
 
-💻 Tecnologías con las que codifico
-💻 Tecnologías con las que codifico
-- ![ReactJS](https://img.icons8.com/color/48/000000/react-native.png) ReactJS
-- ![Docker](https://img.icons8.com/color/48/000000/docker.png) Docker
-- ![Express](https://img.icons8.com/color/48/000000/express.png) Express
-- ![Redux](https://img.icons8.com/color/48/000000/redux.png) Redux
-- ![Git](https://img.icons8.com/color/48/000000/git.png) Git
-- ![CSS](https://img.icons8.com/color/48/000000/css3.png) CSS
-- ![Node.js](https://img.icons8.com/color/48/000000/nodejs.png) Node.js
-- ![Sequelize](https://img.icons8.com/color/48/000000/sequelize.png) Sequelize
-- ![MySQL](https://img.icons8.com/color/48/000000/mysql.png) MySQL
-- ![PostgreSQL](https://img.icons8.com/color/48/000000/postgresql.png) PostgreSQL
-- ![MongoDB](https://img.icons8.com/color/48/000000/mongodb.png) MongoDB
+## Tecnologías con las que trabajo
+
+💻 Aquí hay algunas de las tecnologías con las que trabajo y tengo experiencia:
+
+- <img src="https://img.icons8.com/color/48/000000/react-native.png" alt="ReactJS" width="20"/> ReactJS
+- <img src="https://img.icons8.com/color/48/000000/docker.png" alt="Docker" width="20"/> Docker
+- <img src="https://img.icons8.com/color/48/000000/express.png" alt="Express" width="20"/> Express
+- <img src="https://img.icons8.com/color/48/000000/redux.png" alt="Redux" width="20"/> Redux
+- <img src="https://img.icons8.com/color/48/000000/git.png" alt="Git" width="20"/> Git
+- <img src="https://img.icons8.com/color/48/000000/css3.png" alt="CSS" width="20"/> CSS
+- <img src="https://img.icons8.com/color/48/000000/nodejs.png" alt="Node.js" width="20"/> Node.js
+- <img src="https://img.icons8.com/color/48/000000/sequelize.png" alt="Sequelize" width="20"/> Sequelize
+- <img src="https://img.icons8.com/color/48/000000/mysql.png" alt="MySQL" width="20"/> MySQL
+- <img src="https://img.icons8.com/color/48/000000/postgresql.png" alt="PostgreSQL" width="20"/> PostgreSQL
+- <img src="https://img.icons8.com/color/48/000000/mongodb.png" alt="MongoDB" width="20"/> MongoDB
+
 
 
 📞 Contáctame
