@@ -33,4 +33,5 @@
  If you have any questions or just want to get in touch, feel free to email me at hrking31@gmail.com.</p>
 <p><img src="https://img.icons8.com/fluency/24/link.png" alt="hernado rey" "/> You can visit my website https://hernandorey-31.web.app/ to learn about my projects and my blog.
 </p>
-#### ¡Gracias por visitar mi perfil! Espero poder contribuir y ser parte de tu próximo proyecto.
+
+#### ¡Thanks for visiting my profile! I look forward to contributing and being part of your next project.
