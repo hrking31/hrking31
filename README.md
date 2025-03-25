@@ -1,5 +1,8 @@
 ### ¡Welcome to my GitHub repository!
 
+![Profile views](https://komarev.com/ghpvc/?username=hrking31&color=red&style=flat-square)
+
+
 ### About me
 
 👨🏻‍💻 I am a self-taught Full Stack developer with more than 10 months of experience in technology and software development. I specialize in high impact solutions to automate business processes.
