@@ -34,7 +34,8 @@
 <p><img src="https://img.icons8.com/fluency/24/link.png" alt="hernado rey" "/> You can visit my website https://hernandorey-31.web.app/ to learn about my projects and my blog.
 </p>
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=hrking31)
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=hrking31) ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=hrking31&layout=compact)
+
 
 
 #### ¡Thanks for visiting my profile! I look forward to contributing and being part of your next project.
