@@ -5,7 +5,7 @@
 
 ### About me
 
-👨🏻‍💻 I am a self-taught Full Stack developer with more than 10 months of experience in technology and software development. I specialize in high impact solutions to automate business processes.
+👨🏻‍💻 I am a self-taught Full Stack developer with more than 40 months of experience in technology and software development. I specialize in high impact solutions to automate business processes.
 
 💼 My experience lies in the development of applications using technologies such as React JS, Node JS, Express, and databases such as MySQL and PostgreSQL. In addition, I have experience designing and implementing RESTful APIs, working with Docker containers, and version control using Git.
 
