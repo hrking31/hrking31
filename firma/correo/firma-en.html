@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email signature · Hernando Rey</title>
+</head>
+<body style="margin:0;padding:32px 16px;background:#f6f8fa;font-family:system-ui,'Segoe UI',Arial,sans-serif;color:#1f2328;">
+<div style="max-width:640px;margin:0 auto;">
+  <h1 style="font-size:20px;margin:0 0 12px;">Email signature · Hernando Rey</h1>
+  <ol style="font-size:14px;line-height:22px;padding-left:20px;margin:0 0 16px;">
+    <li>Click <b>Copy signature</b>.</li>
+    <li>In Gmail: ⚙️ → <b>See all settings</b> → <b>General</b> tab → <b>Signature</b> section.</li>
+    <li><b>Create new</b> (e.g. “English”), click in the box and paste with <b>Ctrl + V</b>.</li>
+    <li>Below, under <b>Signature defaults</b>, pick it for new emails and replies.</li>
+    <li>Scroll to the bottom and click <b>Save Changes</b>.</li>
+  </ol>
+  <button id="copiar" type="button" style="font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border:0;border-radius:8px;background:#ea580c;color:#fff;cursor:pointer;">Copy signature</button>
+  <span id="estado" style="font-size:14px;margin-left:8px;"></span>
+  <div style="margin-top:16px;padding:24px;background:#fff;border:1px solid #d0d7de;border-radius:12px;">
+<div id="firma">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;border-collapse:collapse;">
+  <tr>
+    <td style="vertical-align:top;padding:0 16px 0 0;">
+      <a href="https://hernandorey-31.web.app/en"><img src="https://raw.githubusercontent.com/hrking31/hrking31/main/firma/correo/logo.png" width="80" height="80" alt="Hernando Rey" style="display:block;border:0;width:80px;height:80px;"></a>
+    </td>
+    <td style="vertical-align:top;padding:0 0 0 16px;border-left:3px solid #ea580c;">
+      <div style="font-size:20px;line-height:24px;font-weight:bold;color:#1f2328;">Hernando <span style="color:#ea580c;">Rey</span></div>
+      <div style="font-size:14px;line-height:20px;color:#3d444d;">Full Stack Developer &amp; Electronics Engineer</div>
+      <div style="font-size:12px;line-height:18px;color:#6b7280;padding-top:2px;">React · Node.js · Firebase · REST APIs · IoT · ESP32</div>
+      <div style="font-size:13px;line-height:20px;padding-top:8px;"><a href="https://hernandorey-31.web.app/en" style="color:#ea580c;font-weight:bold;text-decoration:none;">Portfolio</a><span style="color:#6b7280;">&nbsp;·&nbsp;</span><a href="https://www.linkedin.com/in/hernandorey/" style="color:#ea580c;font-weight:bold;text-decoration:none;">LinkedIn</a><span style="color:#6b7280;">&nbsp;·&nbsp;</span><a href="https://github.com/hrking31" style="color:#ea580c;font-weight:bold;text-decoration:none;">GitHub</a></div>
+      <div style="font-size:12px;line-height:18px;color:#6b7280;"><a href="https://wa.me/573028446805" style="color:#6b7280;font-weight:normal;text-decoration:none;">+57 302 844 6805</a><span style="color:#6b7280;">&nbsp;·&nbsp;</span><a href="mailto:hrking31@gmail.com" style="color:#6b7280;font-weight:normal;text-decoration:none;">hrking31@gmail.com</a></div>
+      <div style="font-size:12px;line-height:18px;color:#6b7280;">Barranquilla, Colombia<span style="color:#6b7280;">&nbsp;·&nbsp;</span><span style="color:#16a34a;">●</span>&nbsp;Open to new opportunities</div>
+    </td>
+  </tr>
+</table>
+</div>
+  </div>
+</div>
+<script>
+  document.getElementById("copiar").addEventListener("click", () => {
+    const range = document.createRange();
+    range.selectNode(document.getElementById("firma"));
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const ok = document.execCommand("copy");
+    selection.removeAllRanges();
+    document.getElementById("estado").textContent = ok ? "Copied! Paste it in Gmail with Ctrl + V." : "Couldn't copy: select the signature with the mouse and press Ctrl + C.";
+  });
+</script>
+</body>
+</html>

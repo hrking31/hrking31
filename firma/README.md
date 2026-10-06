@@ -61,3 +61,24 @@ Paste at the end of `README.en.md` (or of an English-only README):
   <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hrking31@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/hrking31/hrking31/main/firma/boton-correo-oscuro.svg"><img alt="hrking31@gmail.com" src="https://raw.githubusercontent.com/hrking31/hrking31/main/firma/boton-correo-claro.svg" height="41"></picture></a>
 </p>
 ```
+
+## Firma de correo (Gmail)
+
+Los correos no muestran SVG, y muchos programas bloquean las imágenes hasta que
+el destinatario las permite. Por eso esta firma es **texto con enlaces** y solo el
+logo es imagen (`correo/logo.png`, servido desde este repositorio).
+
+1. Abrir en el navegador `correo/firma-es.html` (o `firma-en.html`).
+2. Pulsar **Copiar firma**.
+3. En Gmail: ⚙️ → **Ver todos los ajustes** → **General** → **Firma** → **Crear nueva** → pegar con `Ctrl + V`.
+4. En **Valores predeterminados de firma**, elegirla para correos nuevos y respuestas → **Guardar cambios**.
+
+Si cambia un texto, hay que volver a copiarla y pegarla en Gmail (el logo sí se
+actualiza solo).
+
+## Portada de LinkedIn
+
+`linkedin/portada-es.png` mide 1584 × 396 px, la medida de LinkedIn. El texto
+empieza a la derecha porque la foto de perfil tapa la esquina inferior izquierda.
+
+Para ponerla: en LinkedIn, en tu perfil, el ícono ✏️ de la portada → **Cambiar foto** → subir el archivo → **Aplicar**.
