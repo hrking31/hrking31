@@ -51,8 +51,10 @@ const BUTTONS = [
   { id: "portfolio", label: "Portfolio", icon: "external", highlight: true },
   { id: "linkedin", label: "LinkedIn", icon: "linkedin" },
   { id: "github", label: "GitHub", icon: "github" },
-  { id: "correo", label: "Correo", icon: "mail" },
-  { id: "email", label: "Email", icon: "mail" },
+  // El correo va escrito en el botón (sirve en ambos idiomas): así se lee sin
+  // pulsar nada. En el README enlaza a Gmail, porque mailto: no hace nada si el
+  // visitante no tiene una aplicación de correo configurada.
+  { id: "correo", label: "hrking31@gmail.com", icon: "mail" },
 ];
 
 // Fondos iguales a los de GitHub para que el banner no muestre bordes.
