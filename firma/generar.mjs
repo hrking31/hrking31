@@ -75,33 +75,69 @@ const MAIL = {
   brand: "#ea580c",
 };
 
-// Textos de la página para copiar la firma de correo.
+// Textos de la página para copiar la firma de correo. Las dos páginas (firma en
+// español y firma en inglés) tienen las instrucciones en español.
+// GMAIL_SETTINGS abre Gmail directo en Configuración → General (donde está la firma).
+const GMAIL_SETTINGS = "https://mail.google.com/mail/u/0/#settings/general";
+
+const pageSteps = (name, defaults) => [
+  {
+    title: "Copia la firma",
+    body: "Pulsa el botón naranja <b>Copiar firma</b>. Debe aparecer «¡Copiada!».",
+    action: "copy",
+  },
+  {
+    title: "Abre la configuración de Gmail",
+    body: "Pulsa <b>Abrir ajustes de Gmail</b> (se abre en otra pestaña, ya en la pestaña <b>General</b>).<br>Si prefieres hacerlo a mano: en Gmail, rueda ⚙️ arriba a la derecha → <b>Ver todos los ajustes</b> → pestaña <b>General</b>.",
+    action: "gmail",
+  },
+  {
+    title: "Busca la sección «Firma»",
+    body: "En la pestaña <b>General</b>, baja con la rueda del mouse hasta la mitad de la página: a la izquierda dice <b>Firma</b>.",
+  },
+  {
+    title: "Crea la firma y pégala",
+    body: `Pulsa <b>+ Crear nueva</b>, escribe el nombre <b>${name}</b> y pulsa <b>Crear</b>. A la derecha aparece un cuadro en blanco: haz clic dentro y pega con <b>Ctrl + V</b>. Debe verse igual que la vista previa de esta página.`,
+  },
+  { title: "Elige cuándo usarla", body: defaults },
+  {
+    title: "Guarda (¡no te lo saltes!)",
+    body: "Baja <b>hasta el final de la página</b> y pulsa <b>Guardar cambios</b>. Si cierras sin guardar, la firma se pierde.",
+  },
+  {
+    title: "Pruébala",
+    body: "En Gmail pulsa <b>Redactar</b>: la firma debe aparecer abajo del mensaje. Envíate un correo a ti mismo para ver cómo llega.",
+  },
+];
+
+const PAGE_COMMON = {
+  intro: "Sigue los pasos en orden. Toma unos 2 minutos.",
+  before: "<b>Hazlo desde el computador</b>, en Gmail en el navegador (Chrome, Edge…). La app de Gmail del celular solo acepta firmas de texto, sin logo ni enlaces.",
+  copy: "Copiar firma",
+  copied: "✅ ¡Copiada! Sigue con el paso 2.",
+  failed: "No se pudo copiar automáticamente: selecciona la firma de abajo con el mouse (de arriba a abajo) y pulsa Ctrl + C.",
+  openGmail: "Abrir ajustes de Gmail",
+  preview: "Vista previa",
+};
+
 const PAGE = {
   es: {
-    title: "Firma de correo · Hernando Rey",
-    button: "Copiar firma",
-    copied: "¡Copiada! Pégala en Gmail con Ctrl + V.",
-    failed: "No se pudo copiar: selecciona la firma con el mouse y copia con Ctrl + C.",
-    steps: [
-      "Pulsa <b>Copiar firma</b>.",
-      "En Gmail: ⚙️ → <b>Ver todos los ajustes</b> → pestaña <b>General</b> → sección <b>Firma</b>.",
-      "<b>Crear nueva</b> (por ejemplo «Español»), haz clic en el cuadro y pega con <b>Ctrl + V</b>.",
-      "Abajo, en <b>Valores predeterminados de firma</b>, elígela para correos nuevos y respuestas.",
-      "Baja hasta el final y pulsa <b>Guardar cambios</b>.",
-    ],
+    ...PAGE_COMMON,
+    title: "Firma de correo en español · Hernando Rey",
+    other: "Ver la firma en inglés",
+    steps: pageSteps(
+      "Español",
+      "Justo debajo, en <b>Valores predeterminados de firma</b>: en <b>Para correos nuevos</b> y en <b>Al responder o reenviar</b>, elige <b>Español</b>.",
+    ),
   },
   en: {
-    title: "Email signature · Hernando Rey",
-    button: "Copy signature",
-    copied: "Copied! Paste it in Gmail with Ctrl + V.",
-    failed: "Couldn't copy: select the signature with the mouse and press Ctrl + C.",
-    steps: [
-      "Click <b>Copy signature</b>.",
-      "In Gmail: ⚙️ → <b>See all settings</b> → <b>General</b> tab → <b>Signature</b> section.",
-      "<b>Create new</b> (e.g. “English”), click in the box and paste with <b>Ctrl + V</b>.",
-      "Below, under <b>Signature defaults</b>, pick it for new emails and replies.",
-      "Scroll to the bottom and click <b>Save Changes</b>.",
-    ],
+    ...PAGE_COMMON,
+    title: "Firma de correo en inglés · Hernando Rey",
+    other: "Ver la firma en español",
+    steps: pageSteps(
+      "English",
+      "Si ya tienes la firma <b>Español</b> como predeterminada, déjala así: cuando escribas un correo en inglés, cambia de firma con el icono de pluma ✒️ de la barra de abajo y elige <b>English</b>.<br>Si prefieres usar la de inglés siempre, elígela en <b>Valores predeterminados de firma</b> (<b>Para correos nuevos</b> y <b>Al responder o reenviar</b>).",
+    ),
   },
 };
 
@@ -156,17 +192,34 @@ const THEMES = {
 const WEIGHTS = [400, 500, 800];
 const FAMILY = "FirmaInter";
 
+// Descarga primero todas las fuentes y solo si las tres son TTF válidas del
+// servidor de Google reemplaza la copia de firma/fuentes: así una respuesta con
+// error nunca daña la copia buena.
 async function downloadFonts(chars) {
   const url =
     `https://fonts.googleapis.com/css2?family=Inter:wght@${WEIGHTS.join(";")}` +
     `&text=${encodeURIComponent(chars)}`;
-  const css = await (await fetch(url)).text();
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Google Fonts respondió ${response.status}`);
+  const css = await response.text();
+
+  const files = {};
   for (const block of css.split("@font-face").slice(1)) {
-    const weight = Number(block.match(/font-weight:\s*(\d+)/)[1]);
-    const src = block.match(/url\((.+?)\)/)[1];
-    const data = Buffer.from(await (await fetch(src)).arrayBuffer());
-    writeFileSync(join(fontsDir, `inter-${weight}.ttf`), data);
+    const weight = Number(block.match(/font-weight:\s*(\d+)/)?.[1]);
+    const src = block.match(/url\((.+?)\)/)?.[1];
+    if (!WEIGHTS.includes(weight) || !src?.startsWith("https://fonts.gstatic.com/")) continue;
+    const font = await fetch(src);
+    if (!font.ok) throw new Error(`No se pudo descargar la fuente ${weight} (${font.status})`);
+    const data = Buffer.from(await font.arrayBuffer());
+    // Un TTF empieza con 00 01 00 00 (o con "true" en fuentes de Apple).
+    const tag = data.length > 4 ? data.readUInt32BE(0) : 0;
+    if (tag !== 0x00010000 && tag !== 0x74727565) throw new Error(`La fuente ${weight} no es TTF`);
+    files[weight] = data;
   }
+  const missing = WEIGHTS.filter((weight) => !files[weight]);
+  if (missing.length) throw new Error(`Faltan las fuentes ${missing.join(", ")}`);
+
+  for (const weight of WEIGHTS) writeFileSync(join(fontsDir, `inter-${weight}.ttf`), files[weight]);
 }
 
 // Lee de un archivo TTF lo justo para medir textos: el glifo de cada letra
@@ -274,7 +327,7 @@ const fontFaces = (fonts, weights) =>
 const STYLE_TEXT = `text { font-family: ${FAMILY}, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; font-kerning: none; }`;
 
 const escape = (text) =>
-  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 // Línea base para centrar un texto en vertical (altura de mayúsculas de Inter ≈ 0,727 em).
 const baseline = (centerY, size) => centerY + size * 0.3635;
@@ -545,41 +598,82 @@ function emailSignature(lang) {
 </table>`;
 }
 
-// Página para copiar la firma: se abre en el navegador, se pulsa "Copiar firma" y
-// se pega en Gmail (Configuración → Firma). Gmail no acepta pegar código HTML.
+// Página para copiar la firma: se abre en el navegador (doble clic en el archivo),
+// se pulsa "Copiar firma" y se pega en Gmail. Gmail no acepta pegar código HTML,
+// por eso se copia la firma ya dibujada.
 function emailPage(lang) {
   const p = PAGE[lang];
+  const otherLang = lang === "es" ? "en" : "es";
+  const button = (id, label, filled) =>
+    `<button id="${id}" type="button" style="font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border-radius:8px;cursor:pointer;${
+      filled ? "border:0;background:#ea580c;color:#fff;" : "border:1px solid #ea580c;background:#fff;color:#c2410c;"
+    }">${escape(label)}</button>`;
+  const actions = {
+    copy: `<div style="margin-top:10px;">${button("copiar", p.copy, true)} <span id="estado" style="font-size:14px;margin-left:8px;"></span></div>`,
+    gmail: `<div style="margin-top:10px;"><a href="${GMAIL_SETTINGS}" target="_blank" rel="noopener" style="display:inline-block;font-size:15px;font-weight:600;padding:10px 18px;border-radius:8px;border:1px solid #ea580c;color:#c2410c;text-decoration:none;background:#fff;">${escape(p.openGmail)} ↗</a></div>`,
+  };
+  const steps = p.steps
+    .map(
+      (step, i) => `
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">${i + 1}</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">${escape(step.title)}</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">${step.body}</div>${step.action ? actions[step.action] : ""}
+      </div>
+    </li>`,
+    )
+    .join("");
+
   return `<!doctype html>
-<html lang="${lang}">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escape(p.title)}</title>
 </head>
 <body style="margin:0;padding:32px 16px;background:#f6f8fa;font-family:system-ui,'Segoe UI',Arial,sans-serif;color:#1f2328;">
-<div style="max-width:640px;margin:0 auto;">
-  <h1 style="font-size:20px;margin:0 0 12px;">${escape(p.title)}</h1>
-  <ol style="font-size:14px;line-height:22px;padding-left:20px;margin:0 0 16px;">
-    ${p.steps.map((step) => `<li>${step}</li>`).join("\n    ")}
-  </ol>
-  <button id="copiar" type="button" style="font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border:0;border-radius:8px;background:#ea580c;color:#fff;cursor:pointer;">${escape(p.button)}</button>
-  <span id="estado" style="font-size:14px;margin-left:8px;"></span>
-  <div style="margin-top:16px;padding:24px;background:#fff;border:1px solid #d0d7de;border-radius:12px;">
+<div style="max-width:680px;margin:0 auto;">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;">
+    <h1 style="font-size:22px;margin:0;">${escape(p.title)}</h1>
+    <a href="firma-${otherLang}.html" style="font-size:14px;color:#c2410c;">${escape(p.other)}</a>
+  </div>
+  <p style="font-size:15px;color:#3d444d;margin:6px 0 16px;">${escape(p.intro)}</p>
+  <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;font-size:14px;line-height:22px;">💻 ${p.before}</div>
+
+  <h2 style="font-size:15px;margin:24px 0 8px;color:#57606a;text-transform:uppercase;letter-spacing:.04em;">${escape(p.preview)}</h2>
+  <div style="padding:24px;background:#fff;border:1px solid #d0d7de;border-radius:12px;">
 <div id="firma">
 ${emailSignature(lang)}
 </div>
   </div>
+
+  <ol style="list-style:none;padding:0;margin:24px 0 0;background:#fff;border:1px solid #d0d7de;border-radius:12px;padding:0 20px;">${steps}
+  </ol>
+
 </div>
 <script>
-  document.getElementById("copiar").addEventListener("click", () => {
+  // Copia la firma con su formato. Primero con la API del portapapeles (text/html);
+  // si el navegador no la permite (por ejemplo, al abrir el archivo desde el disco),
+  // selecciona la firma y usa el método clásico.
+  document.getElementById("copiar").addEventListener("click", async () => {
+    const firma = document.getElementById("firma");
+    const estado = document.getElementById("estado");
+    try {
+      const html = new Blob([firma.innerHTML], { type: "text/html" });
+      const text = new Blob([firma.innerText], { type: "text/plain" });
+      await navigator.clipboard.write([new ClipboardItem({ "text/html": html, "text/plain": text })]);
+      estado.textContent = ${JSON.stringify(p.copied)};
+      return;
+    } catch (error) {}
     const range = document.createRange();
-    range.selectNode(document.getElementById("firma"));
+    range.selectNode(firma);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
     const ok = document.execCommand("copy");
     selection.removeAllRanges();
-    document.getElementById("estado").textContent = ok ? ${JSON.stringify(p.copied)} : ${JSON.stringify(p.failed)};
+    estado.textContent = ok ? ${JSON.stringify(p.copied)} : ${JSON.stringify(p.failed)};
   });
 </script>
 </body>
@@ -599,7 +693,7 @@ const CHROME = [
 ].find((path) => path && existsSync(path));
 
 // Abre el SVG en Chrome sin ventana y le toma una captura del tamaño exacto, con
-// fondo transparente.
+// fondo transparente. Si Chrome se cuelga, se corta al minuto.
 function renderPng(svg, file, width, height) {
   const source = join(tmpdir(), `firma-${process.pid}.svg`);
   writeFileSync(source, svg);
@@ -614,7 +708,7 @@ function renderPng(svg, file, width, height) {
     `--user-data-dir=${join(tmpdir(), "firma-chrome")}`,
     `--screenshot=${file}`,
     pathToFileURL(source).href,
-  ]);
+  ], { timeout: 60_000 });
   rmSync(source, { force: true });
   if (!existsSync(file)) throw new Error(`Chrome no pudo crear ${file}`);
 }

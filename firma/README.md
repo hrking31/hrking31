@@ -68,10 +68,14 @@ Los correos no muestran SVG, y muchos programas bloquean las imágenes hasta que
 el destinatario las permite. Por eso esta firma es **texto con enlaces** y solo el
 logo es imagen (`correo/logo.png`, servido desde este repositorio).
 
-1. Abrir en el navegador `correo/firma-es.html` (o `firma-en.html`).
-2. Pulsar **Copiar firma**.
-3. En Gmail: ⚙️ → **Ver todos los ajustes** → **General** → **Firma** → **Crear nueva** → pegar con `Ctrl + V`.
-4. En **Valores predeterminados de firma**, elegirla para correos nuevos y respuestas → **Guardar cambios**.
+Desde el computador (la app de Gmail del celular solo acepta firmas de texto):
+
+1. Doble clic en `correo/firma-es.html` (o `firma-en.html`): se abre en el navegador.
+2. Seguir los 7 pasos de la página: **Copiar firma** → **Abrir ajustes de Gmail** →
+   sección **Firma** → **Crear nueva** → pegar con `Ctrl + V` → elegirla en
+   **Valores predeterminados de firma** → **Guardar cambios** al final de la página.
+
+Las dos páginas tienen las instrucciones en español; solo cambia el idioma de la firma.
 
 Si cambia un texto, hay que volver a copiarla y pegarla en Gmail (el logo sí se
 actualiza solo).

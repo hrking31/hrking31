@@ -3,21 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Firma de correo · Hernando Rey</title>
+<title>Firma de correo en español · Hernando Rey</title>
 </head>
 <body style="margin:0;padding:32px 16px;background:#f6f8fa;font-family:system-ui,'Segoe UI',Arial,sans-serif;color:#1f2328;">
-<div style="max-width:640px;margin:0 auto;">
-  <h1 style="font-size:20px;margin:0 0 12px;">Firma de correo · Hernando Rey</h1>
-  <ol style="font-size:14px;line-height:22px;padding-left:20px;margin:0 0 16px;">
-    <li>Pulsa <b>Copiar firma</b>.</li>
-    <li>En Gmail: ⚙️ → <b>Ver todos los ajustes</b> → pestaña <b>General</b> → sección <b>Firma</b>.</li>
-    <li><b>Crear nueva</b> (por ejemplo «Español»), haz clic en el cuadro y pega con <b>Ctrl + V</b>.</li>
-    <li>Abajo, en <b>Valores predeterminados de firma</b>, elígela para correos nuevos y respuestas.</li>
-    <li>Baja hasta el final y pulsa <b>Guardar cambios</b>.</li>
-  </ol>
-  <button id="copiar" type="button" style="font:inherit;font-size:14px;font-weight:600;padding:8px 16px;border:0;border-radius:8px;background:#ea580c;color:#fff;cursor:pointer;">Copiar firma</button>
-  <span id="estado" style="font-size:14px;margin-left:8px;"></span>
-  <div style="margin-top:16px;padding:24px;background:#fff;border:1px solid #d0d7de;border-radius:12px;">
+<div style="max-width:680px;margin:0 auto;">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;">
+    <h1 style="font-size:22px;margin:0;">Firma de correo en español · Hernando Rey</h1>
+    <a href="firma-en.html" style="font-size:14px;color:#c2410c;">Ver la firma en inglés</a>
+  </div>
+  <p style="font-size:15px;color:#3d444d;margin:6px 0 16px;">Sigue los pasos en orden. Toma unos 2 minutos.</p>
+  <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px 14px;font-size:14px;line-height:22px;">💻 <b>Hazlo desde el computador</b>, en Gmail en el navegador (Chrome, Edge…). La app de Gmail del celular solo acepta firmas de texto, sin logo ni enlaces.</div>
+
+  <h2 style="font-size:15px;margin:24px 0 8px;color:#57606a;text-transform:uppercase;letter-spacing:.04em;">Vista previa</h2>
+  <div style="padding:24px;background:#fff;border:1px solid #d0d7de;border-radius:12px;">
 <div id="firma">
 <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;border-collapse:collapse;">
   <tr>
@@ -36,17 +34,82 @@
 </table>
 </div>
   </div>
+
+  <ol style="list-style:none;padding:0;margin:24px 0 0;background:#fff;border:1px solid #d0d7de;border-radius:12px;padding:0 20px;">
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">1</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Copia la firma</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">Pulsa el botón naranja <b>Copiar firma</b>. Debe aparecer «¡Copiada!».</div><div style="margin-top:10px;"><button id="copiar" type="button" style="font:inherit;font-size:15px;font-weight:600;padding:10px 18px;border-radius:8px;cursor:pointer;border:0;background:#ea580c;color:#fff;">Copiar firma</button> <span id="estado" style="font-size:14px;margin-left:8px;"></span></div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">2</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Abre la configuración de Gmail</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">Pulsa <b>Abrir ajustes de Gmail</b> (se abre en otra pestaña, ya en la pestaña <b>General</b>).<br>Si prefieres hacerlo a mano: en Gmail, rueda ⚙️ arriba a la derecha → <b>Ver todos los ajustes</b> → pestaña <b>General</b>.</div><div style="margin-top:10px;"><a href="https://mail.google.com/mail/u/0/#settings/general" target="_blank" rel="noopener" style="display:inline-block;font-size:15px;font-weight:600;padding:10px 18px;border-radius:8px;border:1px solid #ea580c;color:#c2410c;text-decoration:none;background:#fff;">Abrir ajustes de Gmail ↗</a></div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">3</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Busca la sección «Firma»</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">En la pestaña <b>General</b>, baja con la rueda del mouse hasta la mitad de la página: a la izquierda dice <b>Firma</b>.</div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">4</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Crea la firma y pégala</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">Pulsa <b>+ Crear nueva</b>, escribe el nombre <b>Español</b> y pulsa <b>Crear</b>. A la derecha aparece un cuadro en blanco: haz clic dentro y pega con <b>Ctrl + V</b>. Debe verse igual que la vista previa de esta página.</div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">5</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Elige cuándo usarla</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">Justo debajo, en <b>Valores predeterminados de firma</b>: en <b>Para correos nuevos</b> y en <b>Al responder o reenviar</b>, elige <b>Español</b>.</div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">6</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Guarda (¡no te lo saltes!)</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">Baja <b>hasta el final de la página</b> y pulsa <b>Guardar cambios</b>. Si cierras sin guardar, la firma se pierde.</div>
+      </div>
+    </li>
+    <li style="display:flex;gap:14px;padding:16px 0;border-top:1px solid #e5e7eb;">
+      <span style="flex:none;width:30px;height:30px;border-radius:50%;background:#ea580c;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;">7</span>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:16px;margin-bottom:4px;">Pruébala</div>
+        <div style="font-size:14px;line-height:22px;color:#3d444d;">En Gmail pulsa <b>Redactar</b>: la firma debe aparecer abajo del mensaje. Envíate un correo a ti mismo para ver cómo llega.</div>
+      </div>
+    </li>
+  </ol>
+
 </div>
 <script>
-  document.getElementById("copiar").addEventListener("click", () => {
+  // Copia la firma con su formato. Primero con la API del portapapeles (text/html);
+  // si el navegador no la permite (por ejemplo, al abrir el archivo desde el disco),
+  // selecciona la firma y usa el método clásico.
+  document.getElementById("copiar").addEventListener("click", async () => {
+    const firma = document.getElementById("firma");
+    const estado = document.getElementById("estado");
+    try {
+      const html = new Blob([firma.innerHTML], { type: "text/html" });
+      const text = new Blob([firma.innerText], { type: "text/plain" });
+      await navigator.clipboard.write([new ClipboardItem({ "text/html": html, "text/plain": text })]);
+      estado.textContent = "✅ ¡Copiada! Sigue con el paso 2.";
+      return;
+    } catch (error) {}
     const range = document.createRange();
-    range.selectNode(document.getElementById("firma"));
+    range.selectNode(firma);
     const selection = window.getSelection();
     selection.removeAllRanges();
     selection.addRange(range);
     const ok = document.execCommand("copy");
     selection.removeAllRanges();
-    document.getElementById("estado").textContent = ok ? "¡Copiada! Pégala en Gmail con Ctrl + V." : "No se pudo copiar: selecciona la firma con el mouse y copia con Ctrl + C.";
+    estado.textContent = ok ? "✅ ¡Copiada! Sigue con el paso 2." : "No se pudo copiar automáticamente: selecciona la firma de abajo con el mouse (de arriba a abajo) y pulsa Ctrl + C.";
   });
 </script>
 </body>
