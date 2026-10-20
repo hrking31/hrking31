@@ -86,3 +86,11 @@ actualiza solo).
 empieza a la derecha porque la foto de perfil tapa la esquina inferior izquierda.
 
 Para ponerla: en LinkedIn, en tu perfil, el ícono ✏️ de la portada → **Cambiar foto** → subir el archivo → **Aplicar**.
+
+## Portada de X (antes Twitter)
+
+`x/portada-es.png` mide 1500 × 500 px, la medida de X. Igual que en LinkedIn, la
+foto de perfil tapa la esquina inferior izquierda; el logo va a la derecha.
+
+Para ponerla: en X, en tu perfil, **Editar perfil** → ícono de cámara 📷 sobre la
+portada → subir el archivo → **Aplicar** → **Guardar**.

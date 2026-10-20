@@ -1,5 +1,5 @@
 // Genera la firma de marca de Hernando Rey: para los README de GitHub, el correo
-// y la portada de LinkedIn.
+// y las portadas de LinkedIn y X.
 //
 // Crea, en esta carpeta:
 //   - firma-{es,en}-{oscuro,claro}.svg: el banner (logo, nombre, rol, tecnologías).
@@ -9,6 +9,7 @@
 //   - correo/firma-{es,en}.html: la firma de correo, con un botón para copiarla.
 //   - correo/logo.png: el logo de esa firma (los correos no muestran SVG).
 //   - linkedin/portada-es.png: la portada del perfil de LinkedIn (1584 × 396 px).
+//   - x/portada-es.png: la portada del perfil de X, antes Twitter (1500 × 500 px).
 //
 // Uso:  node firma/generar.mjs
 //
@@ -62,6 +63,9 @@ const PORTFOLIO_LABEL = "hernandorey-31.web.app";
 
 // Idiomas de la portada de LinkedIn (es una sola imagen para todo el perfil).
 const LINKEDIN_LANGS = ["es"];
+
+// Idiomas de la portada de X (también una sola imagen para todo el perfil).
+const X_LANGS = ["es"];
 
 // Desde aquí los ven los README y los correos.
 const RAW = "https://raw.githubusercontent.com/hrking31/hrking31/main/firma";
@@ -518,7 +522,23 @@ const logoSvg = (size) => `<svg xmlns="http://www.w3.org/2000/svg" width="${size
 </svg>
 `;
 
-// --- Portada de LinkedIn ---------------------------------------------------------
+// --- Portadas de LinkedIn y X ----------------------------------------------------
+
+// Tamaño de letra para que un texto mida width, sin pasar de max.
+const fitText = (font, text, width, max) => round(Math.min(max, (width * 100) / font.width(text, 100)));
+
+// Ancho de la fila más larga del bloque de textBlock (tecnologías, o estado con la
+// dirección del portafolio), en coordenadas del banner. Sirve para escalar el
+// bloque y para que la línea naranja mida lo mismo que él.
+function rowsWidth(fonts, sizes, t) {
+  const w = (weight, text, size) => fonts[weight].width(text, size);
+  const stackEnd =
+    TEXT_X + 2 + STACK.reduce((sum, item) => sum + 78 + w(500, item.label, sizes.stack), 0) + 82 * (STACK.length - 1);
+  const statusEnd =
+    520 + w(400, t.location, sizes.status) + 36 + 76 + w(400, t.status, sizes.status) + 36 + 76 +
+    w(500, PORTFOLIO_LABEL, sizes.status);
+  return Math.max(stackEnd, statusEnd) - (TEXT_X + 2);
+}
 
 // 1584 × 396 px es la medida que pide LinkedIn. La foto de perfil tapa la esquina
 // inferior izquierda (en computador desde y ≈ 205; en el celular hasta x ≈ 510).
@@ -531,23 +551,14 @@ const LI_H = 396;
 function linkedinCover(fonts, sizes, lang) {
   const t = TEXTS[lang];
   const c = THEMES.oscuro;
-  const fit = (font, text, width, max) => round(Math.min(max, (width * 100) / font.width(text, 100)));
-  const nameSize = fit(fonts[800], "Hernando Rey", 900, 140);
-  const roleSize = fit(fonts[400], t.role, 900, 42);
+  const nameSize = fitText(fonts[800], "Hernando Rey", 900, 140);
+  const roleSize = fitText(fonts[400], t.role, 900, 42);
 
   // Tecnologías y estado: los del banner, más pequeños y a la derecha de la foto.
   // left: lo más a la izquierda que se puede sin que la foto lo tape en el celular.
   const scale = 0.74;
   const left = 520;
-  // Fin de la fila más larga (en coordenadas del banner), para que la línea naranja
-  // mida lo mismo que el bloque.
-  const w = (weight, text, size) => fonts[weight].width(text, size);
-  const stackEnd =
-    TEXT_X + 2 + STACK.reduce((sum, item) => sum + 78 + w(500, item.label, sizes.stack), 0) + 82 * (STACK.length - 1);
-  const statusEnd =
-    520 + w(400, t.location, sizes.status) + 36 + 76 + w(400, t.status, sizes.status) + 36 + 76 +
-    w(500, PORTFOLIO_LABEL, sizes.status);
-  const lineWidth = round((Math.max(stackEnd, statusEnd) - (TEXT_X + 2)) * scale);
+  const lineWidth = round(rowsWidth(fonts, sizes, t) * scale);
   const dx = round(left - (TEXT_X + 2) * scale);
   const dy = round(254 - STACK_Y * scale);
 
@@ -566,6 +577,54 @@ function linkedinCover(fonts, sizes, lang) {
   </g>
 
   <rect x="${left}" y="350" width="${lineWidth}" height="3" rx="1.5" fill="${c.brand}"/>
+</svg>
+`;
+}
+
+// 1500 × 500 px es la medida que pide X. Como en LinkedIn, la foto de perfil tapa
+// la esquina inferior izquierda (hasta x ≈ 380 y desde y ≈ 330), así que se usa la
+// misma distribución. Aquí sobra espacio a la derecha del nombre: ahí va el logo.
+const X_W = 1500;
+const X_H = 500;
+
+function xCover(fonts, sizes, lang) {
+  const t = TEXTS[lang];
+  const c = THEMES.oscuro;
+  const nameSize = fitText(fonts[800], "Hernando Rey", 980, 160);
+  const roleSize = fitText(fonts[400], t.role, 980, 46);
+
+  // Tecnologías y estado, lo más grandes que quepan entre la foto y el borde derecho.
+  const left = 440;
+  const width = rowsWidth(fonts, sizes, t);
+  const scale = Math.floor(Math.min(0.8, (1430 - left) / width) * 1000) / 1000;
+  const stackY = 352;
+  const dx = round(left - (TEXT_X + 2) * scale);
+  const dy = round(stackY - STACK_Y * scale);
+  const lineY = round(stackY + (STATUS_Y - STACK_Y) * scale + 42);
+
+  // El logo del banner (caja de 252 px en 112, 118), achicado a la derecha del nombre.
+  const logoSize = 214;
+  const logoX = X_W - 80 - logoSize;
+  const logoY = 51;
+  const s = Math.round((logoSize / 252) * 1000) / 1000;
+
+  return `${svgHead(fonts, X_W, X_H, `0 0 ${X_W} ${X_H}`, t.title)}
+  <defs>${halo(c, 0.32)}${LOGO_DEFS}
+  </defs>
+
+  <rect width="${X_W}" height="${X_H}" fill="${c.bg}"/>
+  <circle cx="${logoX + logoSize / 2}" cy="${logoY + logoSize / 2}" r="260" fill="url(#halo)"/>
+  <g transform="translate(${round(logoX - 112 * s)} ${round(logoY - 118 * s)}) scale(${s})">${LOGO}
+  </g>
+
+  <rect x="60" y="74" width="4" height="176" rx="2" fill="${c.brand}"/>
+  <text x="84" y="172" font-size="${nameSize}" font-weight="800" fill="${c.ink}">Hernando <tspan fill="${c.brand}">Rey</tspan></text>
+  <text x="88" y="234" font-size="${roleSize}" font-weight="400" fill="${c.role}">${escape(t.role)}</text>
+
+  <g transform="translate(${dx} ${dy}) scale(${scale})">${textBlock(fonts, sizes, t, c, { url: PORTFOLIO_LABEL, header: false })}
+  </g>
+
+  <rect x="${left}" y="${lineY}" width="${round(width * scale)}" height="3" rx="1.5" fill="${c.brand}"/>
 </svg>
 `;
 }
@@ -765,6 +824,7 @@ for (const themeName of Object.keys(THEMES)) {
 
 mkdirSync(join(here, "correo"), { recursive: true });
 mkdirSync(join(here, "linkedin"), { recursive: true });
+mkdirSync(join(here, "x"), { recursive: true });
 
 for (const lang of Object.keys(TEXTS)) {
   const file = join(here, "correo", `firma-${lang}.html`);
@@ -783,6 +843,12 @@ if (CHROME) {
     renderPng(linkedinCover(fonts, sizes, lang), file, LI_W, LI_H);
     console.log("creada", file.replace(here, "firma"));
   }
+
+  for (const lang of X_LANGS) {
+    const file = join(here, "x", `portada-${lang}.png`);
+    renderPng(xCover(fonts, sizes, lang), file, X_W, X_H);
+    console.log("creada", file.replace(here, "firma"));
+  }
 } else {
-  console.warn("No encontré Chrome: no se crearon los PNG (logo del correo y portada de LinkedIn).");
+  console.warn("No encontré Chrome: no se crearon los PNG (logo del correo y portadas de LinkedIn y X).");
 }
