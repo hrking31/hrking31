@@ -561,6 +561,8 @@ const R_BOX = { left: 228, right: 513, top: 218, bottom: 590 };
 const R_SCALE = 1.35;
 const R_DROP = 0.08;
 const R_STROKE = 40;
+// Borde de arriba de la corona en leon-r.svg.
+const R_CROWN_TOP = 124;
 
 // "Hernando Rey" con el león en lugar de la R; la corona sobresale por encima.
 function nameWithLionR(fonts, size, x, y, c) {
@@ -579,16 +581,23 @@ function nameWithLionR(fonts, size, x, y, c) {
 function linkedinCover(fonts, sizes, lang) {
   const t = TEXTS[lang];
   const c = THEMES.oscuro;
+  const cap = 0.727; // altura de las mayúsculas de Inter, en em
   const nameSize = fitText(fonts[800], "Hernando Rey", 900, 140);
-  const roleSize = fitText(fonts[400], t.role, 900, 42);
 
-  // Tecnologías y estado: los del banner, más pequeños y a la derecha de la foto.
-  // left: lo más a la izquierda que se puede sin que la foto lo tape en el celular.
+  // Encima de la foto (que empieza en y ≈ 200) solo cabe el nombre: la corona de la
+  // R lo empuja hacia abajo. El nombre se ubica con la corona a 14 px del borde.
+  const crownAbove = ((R_BOX.bottom - R_CROWN_TOP) * R_SCALE * cap) / (R_BOX.bottom - R_BOX.top) - R_DROP;
+  const base = round(14 + crownAbove * nameSize);
+  const barTop = round(base - cap * nameSize);
+
+  // Rol, tecnologías y estado, a la derecha de la foto. left: lo más a la izquierda
+  // que se puede sin que la foto lo tape en el celular.
   const scale = 0.74;
   const left = 520;
   const lineWidth = round(rowsWidth(fonts, sizes, t) * scale);
+  const roleSize = fitText(fonts[400], t.role, lineWidth, 34);
   const dx = round(left - (TEXT_X + 2) * scale);
-  const dy = round(268 - STACK_Y * scale);
+  const dy = round(280 - STACK_Y * scale);
 
   return `${svgHead(fonts, LI_W, LI_H, `0 0 ${LI_W} ${LI_H}`, t.title)}
   <defs>${halo(c, 0.32)}
@@ -597,22 +606,24 @@ function linkedinCover(fonts, sizes, lang) {
   <rect width="${LI_W}" height="${LI_H}" fill="${c.bg}"/>
   <circle cx="210" cy="300" r="300" fill="url(#halo)"/>
 
-  <rect x="48" y="90" width="4" height="146" rx="2" fill="${c.brand}"/>${nameWithLionR(fonts, nameSize, 72, 176, c)}
-  <text x="76" y="226" font-size="${roleSize}" font-weight="400" fill="${c.role}">${escape(t.role)}</text>
+  <rect x="48" y="${barTop}" width="4" height="${round(base + R_DROP * nameSize - barTop)}" rx="2" fill="${c.brand}"/>${nameWithLionR(fonts, nameSize, 72, base, c)}
+  <text x="${left}" y="236" font-size="${roleSize}" font-weight="400" fill="${c.role}">${escape(t.role)}</text>
 
   <g transform="translate(${dx} ${dy}) scale(${scale})">${textBlock(fonts, sizes, t, c, { url: PORTFOLIO_LABEL, header: false })}
   </g>
 
-  <rect x="${left}" y="364" width="${lineWidth}" height="3" rx="1.5" fill="${c.brand}"/>
+  <rect x="${left}" y="376" width="${lineWidth}" height="3" rx="1.5" fill="${c.brand}"/>
 </svg>
 `;
 }
 
 // 1500 × 500 px es la medida que pide X. Como en LinkedIn, la foto de perfil tapa
 // la esquina inferior izquierda (hasta x ≈ 380 y desde y ≈ 330), así que se usa la
-// misma distribución. Aquí sobra espacio a la derecha del nombre: ahí va el logo.
+// misma distribución. Aquí sobra espacio a la derecha del nombre: ahí va el león.
 const X_W = 1500;
 const X_H = 500;
+// Alto del dibujo del león dentro de leon.svg (de la corona al pecho).
+const LION_TOP_BOTTOM = [86, 1457];
 
 function xCover(fonts, sizes, lang) {
   const t = TEXTS[lang];
@@ -629,20 +640,20 @@ function xCover(fonts, sizes, lang) {
   const dy = round(stackY - STACK_Y * scale);
   const lineY = round(stackY + (STATUS_Y - STACK_Y) * scale + 42);
 
-  // El logo del banner (caja de 252 px en 112, 118), achicado a la derecha del nombre.
-  const logoSize = 214;
-  const logoX = X_W - 80 - logoSize;
-  const logoY = 51;
-  const s = Math.round((logoSize / 252) * 1000) / 1000;
+  // El león de leon.svg, naranja y sin el cuadro del logo: toma el fondo de la
+  // portada. Va a la derecha del nombre, con un resplandor suave detrás.
+  const lionH = 236;
+  const k = lionH / (LION_TOP_BOTTOM[1] - LION_TOP_BOTTOM[0]);
+  const cx = X_W - 187;
+  const cy = 158;
 
   return `${svgHead(fonts, X_W, X_H, `0 0 ${X_W} ${X_H}`, t.title)}
-  <defs>${halo(c, 0.32)}${LOGO_DEFS}
+  <defs>${halo(c, 0.2)}
   </defs>
 
   <rect width="${X_W}" height="${X_H}" fill="${c.bg}"/>
-  <circle cx="${logoX + logoSize / 2}" cy="${logoY + logoSize / 2}" r="260" fill="url(#halo)"/>
-  <g transform="translate(${round(logoX - 112 * s)} ${round(logoY - 118 * s)}) scale(${s})">${LOGO}
-  </g>
+  <circle cx="${cx}" cy="${cy}" r="260" fill="url(#halo)"/>
+  <g transform="translate(${round(cx - (LION_SIZE / 2) * k)} ${round(cy - ((LION_TOP_BOTTOM[0] + LION_TOP_BOTTOM[1]) / 2) * k)}) scale(${round(k * 10000) / 10000})" fill="${c.brand}" fill-rule="evenodd">${lion}</g>
 
   <rect x="60" y="74" width="4" height="176" rx="2" fill="${c.brand}"/>
   <text x="84" y="172" font-size="${nameSize}" font-weight="800" fill="${c.ink}">Hernando <tspan fill="${c.brand}">Rey</tspan></text>
