@@ -30,7 +30,11 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const fontsDir = join(here, "fuentes");
-const lion = readFileSync(join(here, "leon.png")).toString("base64");
+// El león del logo: los trazos negros de leon.svg (cuadro de 1536 × 1536), sin su
+// fondo naranja plano; el fondo lo pone LOGO con el degradado de la marca.
+const LION_SIZE = 1536;
+const lion = readFileSync(join(here, "leon.svg"), "utf8").match(/<g[^>]*>([\s\S]*)<\/g>/)?.[1];
+if (!lion) throw new Error("No encontré los trazos del león en firma/leon.svg");
 
 const TEXTS = {
   es: {
@@ -413,24 +417,18 @@ function fitSizes(fonts) {
   };
 }
 
-// Gradiente, filtro y recorte del logo (los usan el banner y el PNG del correo).
+// Gradiente y recorte del logo (los usan el banner, el PNG del correo y la portada de X).
 const LOGO_DEFS = `
     <linearGradient id="naranja" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ff8f2e"/>
       <stop offset="1" stop-color="#f25a0a"/>
     </linearGradient>
-    <!-- Deja solo el león (lo oscuro) y vuelve transparente el naranja plano del PNG. -->
-    <filter id="silueta" color-interpolation-filters="sRGB">
-      <feColorMatrix type="matrix" values="0 0 0 0 0.08  0 0 0 0 0.05  0 0 0 0 0.03  -0.723 -2.432 -0.245 0 1.2"/>
-      <!-- Sin esto, las partes transparentes del PNG se volverían negras. -->
-      <feComposite in2="SourceAlpha" operator="in"/>
-    </filter>
     <clipPath id="logo"><rect x="112" y="118" width="252" height="252" rx="48"/></clipPath>`;
 
 const LOGO = `
   <g clip-path="url(#logo)">
     <rect x="112" y="118" width="252" height="252" fill="url(#naranja)"/>
-    <image x="113" y="113" width="250" height="250" filter="url(#silueta)" href="data:image/png;base64,${lion}"/>
+    <g transform="translate(112 118) scale(${252 / LION_SIZE})" fill="#140d08" fill-rule="evenodd">${lion}</g>
   </g>`;
 
 const halo = (c, opacity) => `
@@ -543,10 +541,40 @@ function rowsWidth(fonts, sizes, t) {
 // 1584 × 396 px es la medida que pide LinkedIn. La foto de perfil tapa la esquina
 // inferior izquierda (en computador desde y ≈ 205; en el celular hasta x ≈ 510).
 // Por eso el nombre va grande arriba a la izquierda, sobre la foto, y el resto a
-// la derecha de ella. El logo sobra (ahí está la foto) y los botones no se pueden
-// pulsar, así que el portafolio va escrito.
+// la derecha de ella. El cuadro del logo sobra (ahí está la foto): el león va como
+// la R de "Rey". Los botones no se pueden pulsar, así que el portafolio va escrito.
 const LI_W = 1584;
 const LI_H = 396;
+
+// La R de "Rey": el león de líneas de leon-r.svg, sin su fondo negro (toma el de la
+// portada) y pintado del naranja de la marca.
+const LION_R = readFileSync(join(here, "leon-r.svg"), "utf8")
+  .replace(/^[\s\S]*?<svg[^>]*>/, "")
+  .replace(/<\/svg>[\s\S]*$/, "")
+  .replace(/<rect[^>]*\/>/, "");
+// Caja de la R en leon-r.svg, sin la corona: de la línea de arriba al pie.
+const R_BOX = { left: 228, right: 513, top: 218, bottom: 590 };
+// La R mide un 35 % más que una mayúscula (con la altura de la letra se veía más
+// pequeña que la "e"), su pie baja 0,08 em de la línea base y sus líneas son más
+// gruesas que en el SVG (18) para acercarse al peso del nombre. Más de 40 y las
+// líneas paralelas del león se tocan.
+const R_SCALE = 1.35;
+const R_DROP = 0.08;
+const R_STROKE = 40;
+
+// "Hernando Rey" con el león en lugar de la R; la corona sobresale por encima.
+function nameWithLionR(fonts, size, x, y, c) {
+  const cap = 0.727; // altura de las mayúsculas de Inter, en em
+  const k = (R_SCALE * cap * size) / (R_BOX.bottom - R_BOX.top);
+  const gap = 0.05 * size;
+  const rX = x + fonts[800].width("Hernando ", size) + gap;
+  const eyX = rX + (R_BOX.right - R_BOX.left) * k + gap;
+  const lion = LION_R.replace(/#E55112/gi, c.brand).replace(/stroke-width="[^"]*"/, `stroke-width="${R_STROKE}"`);
+  return `
+  <text x="${x}" y="${y}" font-size="${size}" font-weight="800" fill="${c.ink}">Hernando</text>
+  <g transform="translate(${round(rX - R_BOX.left * k)} ${round(y + R_DROP * size - R_BOX.bottom * k)}) scale(${round(k * 10000) / 10000})">${lion}</g>
+  <text x="${round(eyX)}" y="${y}" font-size="${size}" font-weight="800" fill="${c.brand}">ey</text>`;
+}
 
 function linkedinCover(fonts, sizes, lang) {
   const t = TEXTS[lang];
@@ -560,7 +588,7 @@ function linkedinCover(fonts, sizes, lang) {
   const left = 520;
   const lineWidth = round(rowsWidth(fonts, sizes, t) * scale);
   const dx = round(left - (TEXT_X + 2) * scale);
-  const dy = round(254 - STACK_Y * scale);
+  const dy = round(268 - STACK_Y * scale);
 
   return `${svgHead(fonts, LI_W, LI_H, `0 0 ${LI_W} ${LI_H}`, t.title)}
   <defs>${halo(c, 0.32)}
@@ -569,14 +597,13 @@ function linkedinCover(fonts, sizes, lang) {
   <rect width="${LI_W}" height="${LI_H}" fill="${c.bg}"/>
   <circle cx="210" cy="300" r="300" fill="url(#halo)"/>
 
-  <rect x="48" y="46" width="4" height="146" rx="2" fill="${c.brand}"/>
-  <text x="72" y="132" font-size="${nameSize}" font-weight="800" fill="${c.ink}">Hernando <tspan fill="${c.brand}">Rey</tspan></text>
-  <text x="76" y="182" font-size="${roleSize}" font-weight="400" fill="${c.role}">${escape(t.role)}</text>
+  <rect x="48" y="90" width="4" height="146" rx="2" fill="${c.brand}"/>${nameWithLionR(fonts, nameSize, 72, 176, c)}
+  <text x="76" y="226" font-size="${roleSize}" font-weight="400" fill="${c.role}">${escape(t.role)}</text>
 
   <g transform="translate(${dx} ${dy}) scale(${scale})">${textBlock(fonts, sizes, t, c, { url: PORTFOLIO_LABEL, header: false })}
   </g>
 
-  <rect x="${left}" y="350" width="${lineWidth}" height="3" rx="1.5" fill="${c.brand}"/>
+  <rect x="${left}" y="364" width="${lineWidth}" height="3" rx="1.5" fill="${c.brand}"/>
 </svg>
 `;
 }
