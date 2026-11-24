@@ -9,7 +9,7 @@
 ### 👨🏻‍💻 Sobre mí
 
 - 🛠️ Construyo aplicaciones web y sistemas IoT que personas reales usan todos los días. **3 de ellos están en producción con clientes.**
-- 💼 Desarrollador Full Stack freelance desde 2024: tiendas en línea, sistemas de cotizaciones y cobros, paneles y alertas en tiempo real.
+- 💼 Desarrollador Full Stack freelance desde 2025: tiendas en línea, sistemas de cotizaciones y cobros, paneles y alertas en tiempo real.
 - 🎓 Ingeniero Electrónico (Politécnico de la Costa Atlántica, 2015) y egresado del bootcamp de Desarrollo Web Full Stack (Henry, 2023).
 - 🔌 Trabajo en ambos lados: desde el firmware del ESP32 hasta la aplicación web que muestra los datos.
 

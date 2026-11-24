@@ -9,7 +9,7 @@
 ### 👨🏻‍💻 About me
 
 - 🛠️ I build web apps and IoT systems that real people use every day. **3 of them are in production with clients.**
-- 💼 Freelance Full Stack Developer since 2024: online stores, quoting and billing systems, dashboards and real-time alerts.
+- 💼 Freelance Full Stack Developer since 2025: online stores, quoting and billing systems, dashboards and real-time alerts.
 - 🎓 Electronics Engineer (Politécnico de la Costa Atlántica, 2015) and Full Stack Web Development graduate (Henry, 2023).
 - 🔌 I work on both sides: from ESP32 firmware to the web app that shows the data.
 
